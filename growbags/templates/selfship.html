@@ -1,0 +1,64 @@
+<div class="container" style="max-width: 100%;">
+    <div class="row">
+        <div class="col-lg-12 card-margin" style="margin-bottom: 0rem;">
+
+        <form class="form-inline" method="POST" id="amazonform" data-slots-url="{% url 'result' %}" >
+            {% csrf_token %}
+
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="Price" style="color: black;">Price: </label>
+                <input type="number" class="form-control" id="Price" placeholder="Price" name="Price" required>
+            </div>
+
+            <div class="form-group mx-sm-2 mb-2">
+                <label for="Packing" style="color: black;">Packing Cost: </label>
+                <input type="number" class="form-control" id="Packing" placeholder="Packing" name="Packing" required> in Rs.
+            </div>
+
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="Shipping" style="color: black;">Shipping Cost: </label>
+                <input type="number" class="form-control" id="Shipping" placeholder="Shipping" name="Shipping" required> in Rs.
+            </div>
+
+            <div class="form-group mx-sm-3 mb-2">
+                <button type="submit" class="btn btn-primary mb-2">Calculate</button>
+            </div>
+            
+            <div class="form-group mx-sm-3 mb-2">
+                <button type="reset" class="btn bg-soft-warning mb-2">Clear</button>
+            </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#amazonform").submit(function() {
+var url = $("#amazonform").attr("data-slots-url")
+var e = document.getElementById("from1dropdown");
+
+console.log(e);
+var section = e.value;
+var mydata = $("form#amazonform").serialize() + "&section=" + section;
+console.log(section); // it's only for test
+// mydata.append('callPut', strUser);
+$.ajax({
+    type: "POST",
+    url: url,
+    data: mydata,
+    success: function(response, textStatus, xhr) {
+        console.log(url);
+        // document.getElementById("form1").reset();
+        $("#result").show();
+        $("#result").html(response);
+
+    },
+    error: function(xhr, textStatus, errorThrown) {
+        console.log("error");
+    }
+});
+return false;
+});
+
+</script>
